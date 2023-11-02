@@ -10,11 +10,12 @@ This is a temporary script file.
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
 
 
 # Import data for a single animal
-#data = pd.read_csv('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/708075_cells.csv')  #For desktop
-data = pd.read_csv('/Users/joanacatarino/Desktop/708075_cells.csv') #For mac
+data = pd.read_csv('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/708075_cells.csv')  #For desktop
+#data = pd.read_csv('/Users/joanacatarino/Desktop/708075_cells.csv') #For mac
 
 
 # Info about the experiment
@@ -44,15 +45,47 @@ left_cells = len(slice_data[slice_data['hemisphere'] == 'left']) #Total amount o
 
 x = ['Right Hemisphere', 'Left Hemisphere']
 y = [right_cells, left_cells] 
-color= ['#85BDA6', '#08605F'] # Select color for the bars, light green for right hemisphere and dark green for lost hemisphere
+color= ['#85BDA6', '#08605F'] # Select color for the bars, light green for right hemisphere and dark green for left hemisphere
 
 fig, ax = plt.subplots(1,1, dpi= 500)
 ax.bar(x, y, width=0.1, color=color)
 ax.set(ylim=(0,10000))
-ax.set_title(f'#{animal_id}  {genotype}')
-plt.ylabel('Total number of cells')
+ax.set_title(f'#{animal_id}  {genotype}', fontsize=11)
+plt.ylabel('Total number of cells', fontsize=10)
+plt.tight_layout()
+sns.despine()
 plt.show()
 
 
 
-    
+#%% TEST
+
+
+
+
+
+
+# library
+import matplotlib.pyplot as plt
+ 
+# create dataset
+height = [3, 12, 5, 18, 45]
+bars = ('A', 'B', 'C', 'D', 'E')
+
+# Choose the width of each bar and their positions
+width = [0.1,0.2,3,1.5,0.3]
+x_pos = [0,0.3,2,4.5,5.5]
+ 
+# Make the plot
+plt.bar(x_pos, height, width=width)
+
+# Create names on the x-axis
+plt.xticks(x_pos, bars)
+ 
+# Show graphic
+plt.show()
+
+
+
+
+
