@@ -47,45 +47,15 @@ x = ['Right Hemisphere', 'Left Hemisphere']
 y = [right_cells, left_cells] 
 color= ['#85BDA6', '#08605F'] # Select color for the bars, light green for right hemisphere and dark green for left hemisphere
 
-fig, ax = plt.subplots(1,1, dpi= 500)
-ax.bar(x, y, width=0.1, color=color)
+fig, ax = plt.subplots(1,1, figsize=(3.8,5), dpi= 500)
+ax.bar(x, y, width=0.4, color=color)
 ax.set(ylim=(0,10000))
-ax.set_title(f'#{animal_id}  {genotype}', fontsize=11)
+ax.set_title(f'#{animal_id}  {genotype}', fontsize=11, x=0.4 , y=1.02)
+ax.bar_label(ax.containers[0], fontsize=8.5, color='#494949', padding=3)
+ax.margins(x=0.2)
 plt.ylabel('Total number of cells', fontsize=10)
 plt.tight_layout()
 sns.despine()
 plt.show()
-
-
-
-#%% TEST
-
-
-
-
-
-
-# library
-import matplotlib.pyplot as plt
- 
-# create dataset
-height = [3, 12, 5, 18, 45]
-bars = ('A', 'B', 'C', 'D', 'E')
-
-# Choose the width of each bar and their positions
-width = [0.1,0.2,3,1.5,0.3]
-x_pos = [0,0.3,2,4.5,5.5]
- 
-# Make the plot
-plt.bar(x_pos, height, width=width)
-
-# Create names on the x-axis
-plt.xticks(x_pos, bars)
- 
-# Show graphic
-plt.show()
-
-
-
 
 
