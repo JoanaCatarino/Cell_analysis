@@ -6,7 +6,6 @@ Created by Joana Catarino
 
 This is a temporary script file.
 """
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -62,7 +61,8 @@ plt.tight_layout()
 sns.despine()
 plt.show()
 
-#Add line to save fig
+plt.savefig('/Users/joanacatarino/Desktop/Results/Total_cells.png')
+plt.savefig('/Users/joanacatarino/Desktop/Results/Total_cells.pdf')
 
 #%%
 
@@ -72,21 +72,17 @@ plt.show()
 # Create a new column that only includes the name of the region without specifying the layer
 slice_data['region'], slice_data['layer'] = slice_data['name'].str.split(',', n=1).str
 
+
 # Get regions of interest (don't discriminate dorsal, ventral, medial, lateral, layers)
-PL_left = len(slice_data[slice_data['hemisphere'] == 'left']) and (slice_data[slice_data['region'] == 'Prelimbic area']) 
-ILA_left = len(slice_data[slice_data['hemisphere'] == 'left']) and (slice_data[slice_data['region'] == 'Infralimbic area']) 
-ACA_left = len(slice_data[slice_data['hemisphere'] == 'left']) and (slice_data[slice_data['region'] == 'Anterior cingulate area']) 
-ORB_left = len(slice_data[slice_data['hemisphere'] == 'left']) and (slice_data[slice_data['region'] == 'Orbital area']) 
+PL_left = slice_data[(slice_data.hemisphere == 'left') & (slice_data.region == 'Prelimbic area')] 
+ILA_left = slice_data[(slice_data.hemisphere == 'left') & (slice_data.region == 'Infralimbic area')] 
+ACA_left = slice_data[(slice_data.hemisphere == 'left') & (slice_data.region == 'Anterior cingulate area')] 
+ORB_left = slice_data[(slice_data.hemisphere == 'left') & (slice_data.region == 'Orbital area')] 
 
-PL_right = len(slice_data[slice_data['hemisphere'] == 'right']) and (slice_data[slice_data['region'] == 'Prelimbic area']) 
-ILA_right = len(slice_data[slice_data['hemisphere'] == 'right']) and (slice_data[slice_data['region'] == 'Infralimbic area']) 
-ACA_right = len(slice_data[slice_data['hemisphere'] == 'right']) and (slice_data[slice_data['region'] == 'Anterior cingulate area']) 
-ORB_right = len(slice_data[slice_data['hemisphere'] == 'right']) and (slice_data[slice_data['region'] == 'Orbital area']) 
-
-'''
-PL_right2 = len(slice_data[slice_data['hemisphere'] == 'right'] and slice_data[slice_data['region'] == 'Prelimbic area'])
-
-'''
+PL_right = slice_data[(slice_data.hemisphere == 'right') & (slice_data.region == 'Prelimbic area')] 
+ILA_right = slice_data[(slice_data.hemisphere == 'right') & (slice_data.region == 'Infralimbic area')] 
+ACA_right = slice_data[(slice_data.hemisphere == 'right') & (slice_data.region == 'Anterior cingulate area')] 
+ORB_right = slice_data[(slice_data.hemisphere == 'right') & (slice_data.region == 'Orbital area')] 
 
 # Get amount of cells in each region of interest
 PL_left_cells = PL_left[PL_left.columns[0]].count() 
@@ -103,11 +99,11 @@ ORB_right_cells = ORB_right[ORB_right.columns[0]].count()
 PFC_left = PL_left_cells + ILA_left_cells + ACA_left_cells + ORB_left_cells
 PFC_right = PL_right_cells + ILA_right_cells + ACA_right_cells + ORB_right_cells
 
-# Plot
 
+# Plot number of cells in PFC for each hemisphere
 x = ['PFC right', 'PFC left']
 y = [PFC_right, PFC_left] 
-color= ['#85BDA6', '#08605F'] # Select color for the bars, light green for right hemisphere and dark green for left hemisphere
+color= ['#B598AF', '#623B5A'] # Select color for the bars, light purple for right hemisphere and dark purple for left hemisphere
 
 fig, ax = plt.subplots(1,1, figsize=(4,5), dpi= 500)
 ax.bar(x, y, width=0.4, color=color)
@@ -120,7 +116,32 @@ plt.tight_layout()
 sns.despine()
 plt.show()
 
-# fazer grafico com as barras de todo o cerebero e pfc sobrepostas
+plt.savefig('/Users/joanacatarino/Desktop/Results/PFC_cells.png')
+plt.savefig('/Users/joanacatarino/Desktop/Results/PFC_cells.pdf')
+
+
+#Plot total number of cells and PFC cells
+
+x = ['Right Hemisphere', 'Left Hemisphere']
+data_total = [right_cells, left_cells]
+data_pfc = [PFC_right, PFC_left]
+
+color_total = ['#08605F']
+color_pfc = ['#623B5A'] 
+
+fig, ax = plt.subplots(1,1, figsize=(4,5), dpi=500)
+ax.bar(x=x, height=data_total, width=0.4, align='center', color=color_total, label='Total cells')
+ax.bar(x=x, height=data_pfc, width=0.4, align='center', color=color_pfc, label='PFC cells')
+ax.set(ylim=(0,10000))
+ax.set_title(f'#{animal_id}  {genotype}', fontsize=11, fontweight='bold', x=0.4 , y=1.05)
+ax.bar_label(ax.containers[0], fontsize=8.5, color='#494949', padding=3)
+ax.legend(labels=['All cells', 'PFC cells'], fontsize=9)
+ax.margins(x=0.2)
+plt.ylabel('Total number of cells', fontsize=10, labelpad=8)
+plt.tight_layout()
+sns.despine()
+plt.show()
+
 
 #%%
 
@@ -129,11 +150,6 @@ plt.show()
 
 
 
-'''
-t_stat, p_value = ttest_ind(right_cells, left_cells) 
-print('T-statistic value: ', t_stat)  
-print('P-Value: ', p_value)
-'''
 
 
 
