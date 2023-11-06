@@ -25,6 +25,7 @@ data = pd.read_csv('/Users/joanacatarino/Desktop/708075_cells.csv') #For mac
 # Info about the experiment
 animal_id = 708075
 genotype = 'Rbp4 Cre_neg'
+injection = 'left'
 
 # Create a new data frame that excludes the cells that were found outside the brain slice = root 
 slice_data = data[~(data['acronym'] == 'root')]
@@ -61,9 +62,11 @@ plt.tight_layout()
 sns.despine()
 plt.show()
 
-plt.savefig('/Users/joanacatarino/Desktop/Results/Total_cells.png')
-plt.savefig('/Users/joanacatarino/Desktop/Results/Total_cells.pdf')
+#plt.savefig('/Users/joanacatarino/Desktop/Results/Total_cells.png')
+#plt.savefig('/Users/joanacatarino/Desktop/Results/Total_cells.pdf')
 
+# In case we want to save the new data frame:
+#slice_data.to_csv('/Users/joanacatarino/Desktop/Results/slice_data.csv')
 #%%
 
 # Quantify total number of cells in PFC for each hemisphere
@@ -71,6 +74,9 @@ plt.savefig('/Users/joanacatarino/Desktop/Results/Total_cells.pdf')
 
 # Create a new column that only includes the name of the region without specifying the layer
 slice_data['region'], slice_data['layer'] = slice_data['name'].str.split(',', n=1).str
+
+# Create a new colum with the position inside a region (medial, lateral, etc) to be used later
+slice_data['position'], slice_data['layer4real'] = slice_data['layer'].str.split(',', n=1).str #It works but needs to be improved
 
 
 # Get regions of interest (don't discriminate dorsal, ventral, medial, lateral, layers)
@@ -116,8 +122,8 @@ plt.tight_layout()
 sns.despine()
 plt.show()
 
-plt.savefig('/Users/joanacatarino/Desktop/Results/PFC_cells.png')
-plt.savefig('/Users/joanacatarino/Desktop/Results/PFC_cells.pdf')
+#plt.savefig('/Users/joanacatarino/Desktop/Results/PFC_cells.png')
+#plt.savefig('/Users/joanacatarino/Desktop/Results/PFC_cells.pdf')
 
 
 #Plot total number of cells and PFC cells
@@ -142,16 +148,61 @@ plt.tight_layout()
 sns.despine()
 plt.show()
 
+#plt.savefig('/Users/joanacatarino/Desktop/Results/ratio.png')
+#plt.savefig('/Users/joanacatarino/Desktop/Results/ratio.pdf')
 
 #%%
 
 # Compare the number of cells between different PFC subregions for each hemisphere
-    # Regions to include: PL, ILA, ACAd, ACAv, ORBm, ORBl, ORBvl, Mos, Ald, Alv
+    # Regions to include: PL, ILA, ACAd, ACAv, ORBm, ORBl, ORBvl, Mos, AId, AIv
 
 
+#Left hemisphere
+PL_left = len(slice_data[(slice_data.hemisphere == 'left') & (slice_data.region == 'Prelimbic area')]) 
+ILA_left = len(slice_data[(slice_data.hemisphere == 'left') & (slice_data.region == 'Infralimbic area')]) 
+ACA_left = len(slice_data[(slice_data.hemisphere == 'left') & (slice_data.region == 'Anterior cingulate area')]) #There is no ACAv in this dataset so we can use the general ACA to represent ACAd
+ORBm_left = len(ORB_left[(ORB_left.position == ' medial part')])
+ORBl_left = len(ORB_left[(ORB_left.position == ' lateral part')])
+ORBvl_left = len(ORB_left[(ORB_left.position == ' ventrolateral part')])
+MOs_left = len(slice_data[(slice_data.hemisphere == 'left') & (slice_data.region == 'Secondary motor area')])
+AId_left = len(slice_data[(slice_data.hemisphere == 'left') & (slice_data.region == 'Agranular insular area')& (slice_data.position == ' dorsal part')])
+AIv_left = len(slice_data[(slice_data.hemisphere == 'left') & (slice_data.region == 'Agranular insular area')& (slice_data.position == ' ventral part')])
 
+#Right hemisphere
+PL_right = len(slice_data[(slice_data.hemisphere == 'right') & (slice_data.region == 'Prelimbic area')]) 
+ILA_right = len(slice_data[(slice_data.hemisphere == 'right') & (slice_data.region == 'Infralimbic area')]) 
+ACA_right = len(slice_data[(slice_data.hemisphere == 'right') & (slice_data.region == 'Anterior cingulate area')]) #There is no ACAv in this dataset so we can use the general ACA to represent ACAd
+ORBm_right = len(ORB_right[(ORB_right.position == ' medial part')])
+ORBl_right = len(ORB_right[(ORB_right.position == ' lateral part')])
+ORBvl_right = len(ORB_right[(ORB_right.position == ' ventrolateral part')])
+MOs_right = len(slice_data[(slice_data.hemisphere == 'right') & (slice_data.region == 'Secondary motor area')])
+AId_right = len(slice_data[(slice_data.hemisphere == 'right') & (slice_data.region == 'Agranular insular area')& (slice_data.position == ' dorsal part')])
+AIv_right = len(slice_data[(slice_data.hemisphere == 'right') & (slice_data.region == 'Agranular insular area')& (slice_data.position == ' ventral part')])
 
+#Plot for both hemispheres
 
+x=['PL', 'ILA', 'ACA', 'ORBm', 'ORBl', 'ORBvl', 'MOs', 'AId', 'AIv']
+y_left=[PL_left, ILA_left, ACA_left, ORBm_left, ORBl_left, ORBvl_left, MOs_left, AId_left, AIv_left]
+y_right=[PL_right, ILA_right, ACA_right, ORBm_right, ORBl_right, ORBvl_right, MOs_right, AId_right, AIv_right]
+color_left =  '#3C5A14'
+color_right = '#7EA967'
+
+fig, (ax1, ax2) = plt.subplots(2,1, figsize=(7,7), dpi= 500)
+fig.suptitle(f'#{animal_id}  {genotype}', fontsize=11, fontweight='bold')
+
+ax1.bar(x, y_left, width=0.4, color=color_left)
+ax1.set(ylim=(0,2500), ylabel=' Total number of cells')
+ax1.set_title('Left Hemisphere', fontsize=10, x=0.5 , y=1.05)
+ax1.bar_label(ax1.containers[0], fontsize=8.5, color='#494949', padding=3)
+
+ax2.bar(x, y_right, width=0.4, color=color_right)
+ax2.set(ylim=(0,2500))
+ax2.set_title('Right Hemisphere', fontsize=10, x=0.5 , y=1.05)
+ax2.bar_label(ax2.containers[0], fontsize=8.5, color='#494949', padding=3)
+plt.ylabel('Total number of cells', fontsize=10, labelpad=8)
+plt.tight_layout(pad=4)
+sns.despine()
+plt.show()
 
 
 
