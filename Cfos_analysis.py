@@ -67,6 +67,7 @@ plt.show()
 
 # In case we want to save the new data frame:
 #slice_data.to_csv('/Users/joanacatarino/Desktop/Results/slice_data.csv')
+
 #%%
 
 # Quantify total number of cells in PFC for each hemisphere
