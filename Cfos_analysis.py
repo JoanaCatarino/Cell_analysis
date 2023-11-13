@@ -142,7 +142,8 @@ ax.bar(x=x, height=data_pfc, width=0.4, align='center', color=color_pfc, label='
 ax.set(ylim=(0,10000))
 ax.set_title(f'#{animal_id}  {genotype}', fontsize=11, fontweight='bold', x=0.4 , y=1.05)
 ax.bar_label(ax.containers[0], fontsize=8.5, color='#494949', padding=3)
-ax.legend(labels=['All cells', 'PFC cells'], fontsize=9)
+ax.bar_label(ax.containers[1], fontsize=8.5, color='#F4EDED', padding=3)
+ax.legend(labels=['All cells', 'PFC cells'], fontsize=9, frameon=False)
 ax.margins(x=0.2)
 plt.ylabel('Total number of cells', fontsize=10, labelpad=8)
 plt.tight_layout()
@@ -180,7 +181,7 @@ MOs_right = len(slice_data[(slice_data.hemisphere == 'right') & (slice_data.regi
 AId_right = len(slice_data[(slice_data.hemisphere == 'right') & (slice_data.region == 'Agranular insular area')& (slice_data.position == ' dorsal part')])
 AIv_right = len(slice_data[(slice_data.hemisphere == 'right') & (slice_data.region == 'Agranular insular area')& (slice_data.position == ' ventral part')])
 
-#Plot for both hemispheres
+#Plot for both hemispheres separately
 
 x=['PL', 'ILA', 'ACA', 'ORBm', 'ORBl', 'ORBvl', 'MOs', 'AId', 'AIv']
 y_left=[PL_left, ILA_left, ACA_left, ORBm_left, ORBl_left, ORBvl_left, MOs_left, AId_left, AIv_left]
@@ -190,9 +191,11 @@ color_right = '#7EA967'
 
 fig, (ax1, ax2) = plt.subplots(2,1, figsize=(7,7), dpi= 500)
 fig.suptitle(f'#{animal_id}  {genotype}', fontsize=11, fontweight='bold')
+plt.subplots_adjust(hspace=0.1)
 
 ax1.bar(x, y_left, width=0.4, color=color_left)
-ax1.set(ylim=(0,2500), ylabel=' Total number of cells')
+ax1.set(ylim=(0,2500))
+ax1.set_ylabel('Total number of cells', labelpad=10, fontsize=10)
 ax1.set_title('Left Hemisphere', fontsize=10, x=0.5 , y=1.05)
 ax1.bar_label(ax1.containers[0], fontsize=8.5, color='#494949', padding=3)
 
@@ -200,11 +203,42 @@ ax2.bar(x, y_right, width=0.4, color=color_right)
 ax2.set(ylim=(0,2500))
 ax2.set_title('Right Hemisphere', fontsize=10, x=0.5 , y=1.05)
 ax2.bar_label(ax2.containers[0], fontsize=8.5, color='#494949', padding=3)
-plt.ylabel('Total number of cells', fontsize=10, labelpad=8)
-plt.tight_layout(pad=4)
+ax2.set_ylabel('Total number of cells', labelpad=10, fontsize=10)
+plt.tight_layout(pad=2)
 sns.despine()
 plt.show()
 
 
 
+# Plot for both hemispheres in the same figure - grouped bar plot
+
+x = np.arange(9) 
+y_left=[PL_left, ILA_left, ACA_left, ORBm_left, ORBl_left, ORBvl_left, MOs_left, AId_left, AIv_left]
+y_right=[PL_right, ILA_right, ACA_right, ORBm_right, ORBl_right, ORBvl_right, MOs_right, AId_right, AIv_right]
+color_right = '#7EA967'
+color_left =  '#3C5A14'
+width = 0.4
+  
+# plot data in grouped manner of bar type 
+fig, ax = plt.subplots(1,1, layout='constrained', figsize=(10,6), dpi= 500)
+
+plt.bar(x-0.4, y_right, width=width, color=color_right) 
+plt.bar(x, y_left, width=width, color=color_left) 
+
+ax.set_xticks(x-0.2, ['PL', 'ILA', 'ACA', 'ORBm', 'ORBl', 'ORBvl', 'MOs', 'AId', 'AIv']) 
+ax.legend(['Right Hemisphere', 'Left Hemisphere'], loc='upper left', ncols=1, frameon=False) 
+ax.set_ylabel('Total number of cells', labelpad=10, fontsize=10)
+ax.bar_label(ax.containers[0], fontsize=8.5, color='#494949', padding=3)
+ax.bar_label(ax.containers[1], fontsize=8.5, color='#494949', padding=3)
+ax.set_title(f'#{animal_id}  {genotype}', fontsize=11, fontweight='bold', x=0.5 , y=1.05)
+ax.set_ylim(0, 2500)
+
+
+plt.tight_layout(pad=2)
+sns.despine()
+plt.show()
+ 
+
+
+ 
 
