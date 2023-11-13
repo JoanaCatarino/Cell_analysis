@@ -20,11 +20,11 @@ from scipy.stats import ttest_ind
 
 # Import data for a single animal
 #data = pd.read_csv('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/708075_cells.csv')  #For desktop
-data = pd.read_csv('/Users/joanacatarino/Desktop/708075_cells.csv') #For mac
+data = pd.read_csv('/Users/joanacatarino/Desktop/Lab/Cfos_CellCounting/714000/714000_cells.csv') #For mac
 
 # Info about the experiment
-animal_id = 708075
-genotype = 'Rbp4 Cre_neg'
+animal_id = 714000
+genotype = 'Tlx3-Cre Cre_neg'
 injection = 'left'
 
 # Create a new data frame that excludes the cells that were found outside the brain slice = root 
@@ -60,13 +60,12 @@ ax.margins(x=0.2)
 plt.ylabel('Total number of cells', fontsize=10, labelpad=8)
 plt.tight_layout()
 sns.despine()
-plt.show()
 
-#plt.savefig('/Users/joanacatarino/Desktop/Results/Total_cells.png')
-#plt.savefig('/Users/joanacatarino/Desktop/Results/Total_cells.pdf')
+plt.savefig('/Users/joanacatarino/Desktop/Lab/Cfos_CellCounting/714000/Figures/'f'{animal_id}_Total_cells.png', transparent=True)
+plt.savefig('/Users/joanacatarino/Desktop/Lab/Cfos_CellCounting/714000/Figures/'f'{animal_id}_Total_cells.pdf', transparent=True)
 
 # In case we want to save the new data frame:
-#slice_data.to_csv('/Users/joanacatarino/Desktop/Results/slice_data.csv')
+#slice_data.to_csv('/Users/joanacatarino/Desktop/Lab/Cfos_CellCounting/708075/'f'{animal_id}_slice_data.csv')
 
 #%%
 
@@ -121,10 +120,9 @@ ax.margins(x=0.2)
 plt.ylabel('Total number of cells', fontsize=10, labelpad=8)
 plt.tight_layout()
 sns.despine()
-plt.show()
 
-#plt.savefig('/Users/joanacatarino/Desktop/Results/PFC_cells.png')
-#plt.savefig('/Users/joanacatarino/Desktop/Results/PFC_cells.pdf')
+plt.savefig('/Users/joanacatarino/Desktop/Lab/Cfos_CellCounting/714000/Figures/'f'{animal_id}_PFC_cells.png', transparent=True)
+plt.savefig('/Users/joanacatarino/Desktop/Lab/Cfos_CellCounting/714000/Figures/'f'{animal_id}_PFC_cells.pdf', transparent=True)
 
 
 #Plot total number of cells and PFC cells
@@ -143,15 +141,14 @@ ax.set(ylim=(0,10000))
 ax.set_title(f'#{animal_id}  {genotype}', fontsize=11, fontweight='bold', x=0.4 , y=1.05)
 ax.bar_label(ax.containers[0], fontsize=8.5, color='#494949', padding=3)
 ax.bar_label(ax.containers[1], fontsize=8.5, color='#F4EDED', padding=3)
-ax.legend(labels=['All cells', 'PFC cells'], fontsize=9, frameon=False)
+ax.legend(labels=['All cells', 'PFC cells'], fontsize=9, loc='upper left', frameon=False)
 ax.margins(x=0.2)
 plt.ylabel('Total number of cells', fontsize=10, labelpad=8)
 plt.tight_layout()
 sns.despine()
-plt.show()
 
-#plt.savefig('/Users/joanacatarino/Desktop/Results/ratio.png')
-#plt.savefig('/Users/joanacatarino/Desktop/Results/ratio.pdf')
+plt.savefig('/Users/joanacatarino/Desktop/Lab/Cfos_CellCounting/714000/Figures/'f'{animal_id}_Ratio_PFC_Total.png', transparent=True)
+plt.savefig('/Users/joanacatarino/Desktop/Lab/Cfos_CellCounting/714000/Figures/'f'{animal_id}_Ratio_PFC_Total.pdf', transparent=True)
 
 #%%
 
@@ -206,9 +203,9 @@ ax2.bar_label(ax2.containers[0], fontsize=8.5, color='#494949', padding=3)
 ax2.set_ylabel('Total number of cells', labelpad=10, fontsize=10)
 plt.tight_layout(pad=2)
 sns.despine()
-plt.show()
 
-
+plt.savefig('/Users/joanacatarino/Desktop/Lab/Cfos_CellCounting/714000/Figures/'f'{animal_id}_PFC_subregions.png', transparent=True)
+plt.savefig('/Users/joanacatarino/Desktop/Lab/Cfos_CellCounting/714000/Figures/'f'{animal_id}_PFC_subregions.pdf', transparent=True)
 
 # Plot for both hemispheres in the same figure - grouped bar plot
 
@@ -233,12 +230,11 @@ ax.bar_label(ax.containers[1], fontsize=8.5, color='#494949', padding=3)
 ax.set_title(f'#{animal_id}  {genotype}', fontsize=11, fontweight='bold', x=0.5 , y=1.05)
 ax.set_ylim(0, 2500)
 
-
 plt.tight_layout(pad=2)
 sns.despine()
-plt.show()
  
-
+plt.savefig('/Users/joanacatarino/Desktop/Lab/Cfos_CellCounting/714000/Figures/'f'{animal_id}_PFC_subregions_grouped.png', transparent=True)
+plt.savefig('/Users/joanacatarino/Desktop/Lab/Cfos_CellCounting/714000/Figures/'f'{animal_id}_PFC_subregions_grouped.pdf', transparent=True)
 
  
 
