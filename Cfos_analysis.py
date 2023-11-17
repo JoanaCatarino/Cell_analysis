@@ -69,6 +69,10 @@ slice_data['region'], slice_data['layer'] = slice_data['name'].str.split(',', n=
 # Create a new colum with the position inside a region (medial, lateral, etc) to be used later
 slice_data['position'], slice_data['layer4real'] = slice_data['layer'].str.split(',', n=1).str #It works but needs to be improved
 
+#Add a column that only specifies the animal ID an drop the one with the obj name and file type (section_name)
+slice_data.insert(0, 'animal_id', animal_id) #Add new column
+slice_data = slice_data.drop(columns=['section_name']) # Drop old one
+
 # In case we want to save the new data frame:
 slice_data.to_csv('/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/714001/'f'{animal_id}_slice_data.csv')
 
