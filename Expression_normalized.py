@@ -205,9 +205,9 @@ y_708075= data708075.Ratio
 y_714000= data714000.Ratio
 y_714001= data714001.Ratio
 
-color1 = '#023C40'
-color2 = '#549F93'
-color3 = '#9FAF90'
+color1 = '#5B8C5A'
+color2 = '#85BDA6'
+color3 = '#08605F'
 
 width = 0.25
   
@@ -219,8 +219,8 @@ plt.bar(x, y_714000, width=width, color=color2)
 plt.bar(x+0.25, y_714001, width=width, color=color3) 
 
 ax.set_xticks(x, ['PL', 'ILA', 'ACAd', 'ACAv', 'ORBm', 'ORBl', 'ORBvl', 'MOs', 'AId', 'AIv']) 
-ax.legend(['708075', '714000', '714001'], loc='upper left', ncols=1, frameon=False) 
-ax.set_ylabel('Increase in expression', labelpad=10, fontsize=10)
+ax.legend(['708075 - Rbp4', '714000 - Tlx3', '714001 - Tlx3'], loc='upper left', ncols=1, frameon=False) 
+ax.set_ylabel('Increase in expression in injected hemisphere', labelpad=10, fontsize=10)
 ax.bar_label(ax.containers[0], fontsize=8.5, color='#494949', padding=3)
 ax.bar_label(ax.containers[1], fontsize=8.5, color='#494949', padding=3)
 ax.bar_label(ax.containers[2], fontsize=8.5, color='#494949', padding=3)
@@ -229,3 +229,6 @@ ax.set_ylim(0, 18)
 
 plt.tight_layout(pad=2)
 sns.despine()
+
+plt.savefig('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/IncreasedExpression_AllAnimals.png', transparent=True)
+plt.savefig('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/IncreasedExpression_AllAnimals.pdf', transparent=True)

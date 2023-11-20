@@ -208,7 +208,6 @@ sns.despine()
 #plt.savefig('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/714001/Figures/'f'{animal_id}_PFC_subregions.pdf', transparent=True)
 
 # Plot for both hemispheres in the same figure - grouped bar plot
-
 x = np.arange(10) 
 y_left=[PL_left, ILA_left, ACAd_left, ACAv_left, ORBm_left, ORBl_left, ORBvl_left, MOs_left, AId_left, AIv_left]
 y_right=[PL_right, ILA_right, ACAd_right, ACAv_right, ORBm_right, ORBl_right, ORBvl_right, MOs_right, AId_right, AIv_right]
