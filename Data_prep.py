@@ -65,39 +65,37 @@ for name in slice_data['name'].values:
             part.append(None)
     else:
         part.append(None)      
-print(part)
 
 slice_data['part'] = part
-  
 
-
-
-#%% Make this in a better way and divided in 3 new columns
-
-# Create a new column that only includes the name of the region without specifying the layer
-slice_data['region'], slice_data['layer'] = slice_data['name'].str.split(',', n=1).str
-
-# Create a new colum with the position inside a region (medial, lateral, etc) to be used later
-slice_data['position'], slice_data['layer4real'] = slice_data['layer'].str.split(',', n=1).str #It works but needs to be improved
-
-#Add a column that only specifies the animal ID an drop the one with the obj name and file type (section_name)
-slice_data.insert(0, 'animal_id', animal_id) #Add new column
-slice_data = slice_data.drop(columns=['section_name']) # Drop old one
-
-
-
+# To create a column with the layer in which the cells are
+layer=[]
+ 
 for name in slice_data['name'].values:
     #print(name.split(','))
     if len(name.split(',')) == 3:
-        print(name.split(',')[-1])
-       
-        
-    elif len(name.split(',')) == 2:
-       if name.split(',')[-1].startswith('layer'):
-           layer.append(name.split(',')[-1])
-       else: 
-           layer.append(None)
+        if name.split(',')[-1].startswith(' layer'):
+            layer.append(name.split(',')[-1])
+        else:layer.append(None)
 
-    else: 
+    elif len(name.split(',')) == 2:
+        if name.split(',')[-1].startswith(' layer') or name.split(',')[-1].startswith(' Layer') : # remove this to work a bit better
+            layer.append(name.split(',')[-1])
+        else:
+            layer.append(None)
+    else:
         layer.append(None)
-print(layer)
+        
+slice_data['layer'] = layer
+
+# Remove the initial column that had all the info about region, part and layer together 
+slice_data = slice_data.drop(columns=['name'])
+
+# For futere improvement:
+ # Remove columns with information about slide
+ # Add a new one that only contains the animal number
+ # Add column with injection site and stimulated side from csv file that contains info for all animals
+ 
+
+
+
