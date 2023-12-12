@@ -18,6 +18,9 @@ import seaborn as sns
 # Import data for a single animal
 data = pd.read_csv('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/708075/708075_cells.csv')  #For desktop
 
+# Animal number
+animal_id = 708075
+
 # CSV file with relevant infromation for experiment
 info = pd.read_csv('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/Experiment_info.csv', sep=';')
 
@@ -90,6 +93,10 @@ slice_data['layer'] = layer
 
 # Remove the initial column that had all the info about region, part and layer together 
 slice_data = slice_data.drop(columns=['name'])
+
+# Save new data
+slice_data.to_csv('/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/data_prep/'f'{animal_id}_slice_data.csv')
+
 
 # For futere improvement:
  # Remove columns with information about slide
