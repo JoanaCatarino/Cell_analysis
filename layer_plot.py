@@ -126,7 +126,7 @@ plt.bar(x, y_left, width=width, color=color_left)
 
 ax.set_xticks(x-0.15, ['layer 1', 'layer 2/3', 'layer 5', 'layer 6a', 'layer 6b']) 
 ax.legend(['Right Hemisphere', 'Left Hemisphere'], loc='upper left', ncols=1, frameon=False) 
-ax.set_ylabel('Total number of cells', labelpad=10, fontsize=10)
+ax.set_ylabel('Proportion of cells (%)', labelpad=10, fontsize=10)
 ax.bar_label(ax.containers[0], fontsize=8.5, color='#494949', padding=3)
 ax.bar_label(ax.containers[1], fontsize=8.5, color='#494949', padding=3)
 ax.set_title(f'#{animal_id}  {genotype}  Prelimbic area', fontsize=11, fontweight='bold', x=0.5 , y=1.05)
@@ -154,7 +154,23 @@ ILA_l5r=len(ILA_layers[(ILA_layers.layer == ' layer 5') & (ILA_layers.hemisphere
 ILA_l6ar=len(ILA_layers[(ILA_layers.layer == ' layer 6a') & (ILA_layers.hemisphere == 'right')])
 ILA_l6br=len(ILA_layers[(ILA_layers.layer == ' layer 6b') & (ILA_layers.hemisphere == 'right')])
 
-# Plot layers PL
+# Proportion of cells in ILA layers 
+total_ILA_left = ILA_l1l + ILA_l23l + ILA_l5l + ILA_l6al + ILA_l6bl
+total_ILA_right = ILA_l1r + ILA_l23r + ILA_l5r + ILA_l6ar + ILA_l6br
+
+pp_ila_l1l = round((ILA_l1l/total_ILA_left)*100,1)
+pp_ila_l23l = round((ILA_l23l/total_ILA_left)*100,1)
+pp_ila_l5l = round((ILA_l5l/total_ILA_left)*100,1)
+pp_ila_l6al = round((ILA_l6al/total_ILA_left)*100,1)
+pp_ila_l6bl = round((ILA_l6bl/total_ILA_left)*100,1)
+
+pp_ila_l1r = round((ILA_l1r/total_ILA_right)*100,1)
+pp_ila_l23r = round((ILA_l23r/total_ILA_right)*100,1)
+pp_ila_l5r = round((ILA_l5r/total_ILA_right)*100,1)
+pp_ila_l6ar = round((ILA_l6ar/total_ILA_right)*100,1)
+pp_ila_l6br = round((ILA_l6br/total_ILA_right)*100,1)
+
+# Plot layers ILA
 x = np.arange(5)
 y_left = [ILA_l1l, ILA_l23l, ILA_l5l, ILA_l6al, ILA_l6bl]
 y_right = [ILA_l1r, ILA_l23r, ILA_l5r, ILA_l6ar, ILA_l6br]
@@ -181,6 +197,33 @@ sns.despine()
 #plt.savefig('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/708075/Figures/'f'{animal_id}_ILA_layers_total.png', transparent=True)
 #plt.savefig('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/708075/Figures/'f'{animal_id}_ILA_layers_total.pdf', transparent=True)
 
+# Plot proportion of cells in layers ILA
+x = np.arange(5)
+y_left = [pp_ila_l1l, pp_ila_l23l, pp_ila_l5l, pp_ila_l6al, pp_ila_l6bl]
+y_right = [pp_ila_l1r, pp_ila_l23r, pp_ila_l5r, pp_ila_l6ar, pp_ila_l6br]
+color_left =  '#C46336'
+color_right = '#EC9871'
+width = 0.3
+
+fig, ax = plt.subplots(1,1, layout='constrained', figsize=(7,6), dpi= 500)
+
+plt.bar(x-0.3, y_right, width=width, color=color_right) 
+plt.bar(x, y_left, width=width, color=color_left) 
+
+ax.set_xticks(x-0.15, ['layer 1', 'layer 2/3', 'layer 5', 'layer 6a', 'layer 6b']) 
+ax.legend(['Right Hemisphere', 'Left Hemisphere'], loc='upper left', ncols=1, frameon=False) 
+ax.set_ylabel('Proportion of cells (%)', labelpad=10, fontsize=10)
+ax.bar_label(ax.containers[0], fontsize=8.5, color='#494949', padding=3)
+ax.bar_label(ax.containers[1], fontsize=8.5, color='#494949', padding=3)
+ax.set_title(f'#{animal_id}  {genotype}  Infralimbic area', fontsize=11, fontweight='bold', x=0.5 , y=1.05)
+ax.set_ylim(0, 80)
+
+plt.tight_layout(pad=2)
+sns.despine()
+
+#plt.savefig('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/708075/Figures/'f'{animal_id}_ILA_layers_proportion.png', transparent=True)
+#plt.savefig('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/708075/Figures/'f'{animal_id}_ILA_layers_proportion.pdf', transparent=True)
+
 #%%
 
 # Cells in ACAd layers
@@ -196,7 +239,23 @@ ACAd_l5r=len(ACAd_layers[(ACAd_layers.layer == ' layer 5') & (ACAd_layers.hemisp
 ACAd_l6ar=len(ACAd_layers[(ACAd_layers.layer == ' layer 6a') & (ACAd_layers.hemisphere == 'right')])
 ACAd_l6br=len(ACAd_layers[(ACAd_layers.layer == ' layer 6b') & (ACAd_layers.hemisphere == 'right')])
 
-# Plot layers PL
+# Proportion of cells in ACAd layers 
+total_ACAd_left = ACAd_l1l + ACAd_l23l + ACAd_l5l + ACAd_l6al + ACAd_l6bl
+total_ACAd_right = ACAd_l1r + ACAd_l23r + ACAd_l5r + ACAd_l6ar + ACAd_l6br
+
+pp_acad_l1l = round((ACAd_l1l/total_ACAd_left)*100,1)
+pp_acad_l23l = round((ACAd_l23l/total_ACAd_left)*100,1)
+pp_acad_l5l = round((ACAd_l5l/total_ACAd_left)*100,1)
+pp_acad_l6al = round((ACAd_l6al/total_ACAd_left)*100,1)
+pp_acad_l6bl = round((ACAd_l6bl/total_ACAd_left)*100,1)
+
+pp_acad_l1r = round((ACAd_l1r/total_ACAd_right)*100,1)
+pp_acad_l23r = round((ACAd_l23r/total_ACAd_right)*100,1)
+pp_acad_l5r = round((ACAd_l5r/total_ACAd_right)*100,1)
+pp_acad_l6ar = round((ACAd_l6ar/total_ACAd_right)*100,1)
+pp_acad_l6br = round((ACAd_l6br/total_ACAd_right)*100,1)
+
+# Plot layers ACAd
 x = np.arange(5)
 y_left = [ACAd_l1l, ACAd_l23l, ACAd_l5l, ACAd_l6al, ACAd_l6bl]
 y_right = [ACAd_l1r, ACAd_l23r, ACAd_l5r, ACAd_l6ar, ACAd_l6br]
@@ -223,6 +282,33 @@ sns.despine()
 #plt.savefig('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/708075/Figures/'f'{animal_id}_ACAd_layers_total.png', transparent=True)
 #plt.savefig('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/708075/Figures/'f'{animal_id}_ACAd_layers_total.pdf', transparent=True)
 
+# Plot proportion of cells in layers ACAd
+x = np.arange(5)
+y_left = [pp_acad_l1l, pp_acad_l23l, pp_acad_l5l, pp_acad_l6al, pp_acad_l6bl]
+y_right = [pp_acad_l1r, pp_acad_l23r, pp_acad_l5r, pp_acad_l6ar, pp_acad_l6br]
+color_left =  '#C46336'
+color_right = '#EC9871'
+width = 0.3
+
+fig, ax = plt.subplots(1,1, layout='constrained', figsize=(7,6), dpi= 500)
+
+plt.bar(x-0.3, y_right, width=width, color=color_right) 
+plt.bar(x, y_left, width=width, color=color_left) 
+
+ax.set_xticks(x-0.15, ['layer 1', 'layer 2/3', 'layer 5', 'layer 6a', 'layer 6b']) 
+ax.legend(['Right Hemisphere', 'Left Hemisphere'], loc='upper left', ncols=1, frameon=False) 
+ax.set_ylabel('Proportion of cells (%)', labelpad=10, fontsize=10)
+ax.bar_label(ax.containers[0], fontsize=8.5, color='#494949', padding=3)
+ax.bar_label(ax.containers[1], fontsize=8.5, color='#494949', padding=3)
+ax.set_title(f'#{animal_id}  {genotype}  Anterior cingulate area - dorsal part', fontsize=11, fontweight='bold', x=0.5 , y=1.05)
+ax.set_ylim(0, 80)
+
+plt.tight_layout(pad=2)
+sns.despine()
+
+#plt.savefig('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/708075/Figures/'f'{animal_id}_ACAd_layers_proportion.png', transparent=True)
+#plt.savefig('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/708075/Figures/'f'{animal_id}_ACAd_layers_proportion.pdf', transparent=True)
+
 #%%
 
 # Cells in ACAv layers
@@ -237,6 +323,22 @@ ACAv_l23r=len(ACAv_layers[(ACAv_layers.layer == ' layer 2/3') & (ACAv_layers.hem
 ACAv_l5r=len(ACAv_layers[(ACAv_layers.layer == ' layer 5') & (ACAv_layers.hemisphere == 'right')])
 ACAv_l6ar=len(ACAv_layers[(ACAv_layers.layer == ' layer 6a') & (ACAv_layers.hemisphere == 'right')])
 ACAv_l6br=len(ACAv_layers[(ACAv_layers.layer == ' layer 6b') & (ACAv_layers.hemisphere == 'right')])
+
+# Proportion of cells in ACAv layers 
+total_ACAv_left = ACAv_l1l + ACAv_l23l + ACAv_l5l + ACAv_l6al + ACAv_l6bl
+total_ACAv_right = ACAv_l1r + ACAv_l23r + ACAv_l5r + ACAv_l6ar + ACAv_l6br
+
+pp_acav_l1l = round((ACAv_l1l/total_ACAv_left)*100,1)
+pp_acav_l23l = round((ACAv_l23l/total_ACAv_left)*100,1)
+pp_acav_l5l = round((ACAv_l5l/total_ACAv_left)*100,1)
+pp_acav_l6al = round((ACAv_l6al/total_ACAv_left)*100,1)
+pp_acav_l6bl = round((ACAv_l6bl/total_ACAv_left)*100,1)
+
+pp_acav_l1r = round((ACAv_l1r/total_ACAv_right)*100,1)
+pp_acav_l23r = round((ACAv_l23r/total_ACAv_right)*100,1)
+pp_acav_l5r = round((ACAv_l5r/total_ACAv_right)*100,1)
+pp_acav_l6ar = round((ACAv_l6ar/total_ACAv_right)*100,1)
+pp_acav_l6br = round((ACAv_l6br/total_ACAv_right)*100,1)
 
 # Plot layers PL
 x = np.arange(5)
@@ -264,6 +366,33 @@ sns.despine()
 
 #plt.savefig('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/708075/Figures/'f'{animal_id}_ACAv_layers_total.png', transparent=True)
 #plt.savefig('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/708075/Figures/'f'{animal_id}_ACAv_layers_total.pdf', transparent=True)
+
+# Plot proportion of cells in layers ACAv
+x = np.arange(5)
+y_left = [pp_acad_l1l, pp_acad_l23l, pp_acad_l5l, pp_acad_l6al, pp_acad_l6bl]
+y_right = [pp_acad_l1r, pp_acad_l23r, pp_acad_l5r, pp_acad_l6ar, pp_acad_l6br]
+color_left =  '#C46336'
+color_right = '#EC9871'
+width = 0.3
+
+fig, ax = plt.subplots(1,1, layout='constrained', figsize=(7,6), dpi= 500)
+
+plt.bar(x-0.3, y_right, width=width, color=color_right) 
+plt.bar(x, y_left, width=width, color=color_left) 
+
+ax.set_xticks(x-0.15, ['layer 1', 'layer 2/3', 'layer 5', 'layer 6a', 'layer 6b']) 
+ax.legend(['Right Hemisphere', 'Left Hemisphere'], loc='upper left', ncols=1, frameon=False) 
+ax.set_ylabel('Proportion of cells (%)', labelpad=10, fontsize=10)
+ax.bar_label(ax.containers[0], fontsize=8.5, color='#494949', padding=3)
+ax.bar_label(ax.containers[1], fontsize=8.5, color='#494949', padding=3)
+ax.set_title(f'#{animal_id}  {genotype}  Anterior cingulate area - dorsal part', fontsize=11, fontweight='bold', x=0.5 , y=1.05)
+ax.set_ylim(0, 80)
+
+plt.tight_layout(pad=2)
+sns.despine()
+
+#plt.savefig('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/708075/Figures/'f'{animal_id}_ACAd_layers_proportion.png', transparent=True)
+#plt.savefig('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/708075/Figures/'f'{animal_id}_ACAd_layers_proportion.pdf', transparent=True)
 
 #%%
 
