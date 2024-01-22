@@ -14,47 +14,45 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+import emoji
 
-# Import data for a single animal
-data = pd.read_csv('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/708075/708075_cells.csv')  #For desktop
+# Select the animal to pre-process
+animal_id = 693754
 
-# Animal number
-animal_id = 708075
-
-# CSV file with relevant infromation for experiment
-info = pd.read_csv('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/Experiment_info.csv', sep=';')
+# Import data for that animal
+data = pd.read_csv('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/data_raw/'f'{animal_id}_cells.csv')
 
 # Remove the column 'Unnamed' because it is not giving any extra information
 data = data.drop(columns=['Unnamed: 0'])
 
-# Create a new data frame that excludes the cells that were found outside the brain slice = root and reset index
-slice_data = data[~(data['acronym'] == 'root')]
-slice_data = slice_data.reset_index(drop=True)
+# Create a new data frame that excludes the cells that were found outside the brain slice = root 
+data = data[~(data['acronym'] == 'root')]
+data = data.reset_index(drop=True) # Reset index
 
 # Check if there are any cells located the middle of the two hemispheres and remove it from the dataset
-mid = slice_data[slice_data['ml_mm'] == 0]  
-slice_data = slice_data[~(slice_data['ml_mm'] == 0)]
+mid = data[data['ml_mm'] == 0]  
+data = data[~(data['ml_mm'] == 0)]
 
 # Check which data is on each hemisphere 
-right_hemisphere = slice_data[slice_data['ml_mm'] > 0]
-left_hemisphere = slice_data[slice_data['ml_mm'] < 0]
+right_hemisphere = data[data['ml_mm'] > 0]
+left_hemisphere = data[data['ml_mm'] < 0]
 
 # Create a column showing which data is on each hemisphere
-slice_data['hemisphere'] = np.where(slice_data['ml_mm'] > 0, 'right', 'left')
+data['hemisphere'] = np.where(data['ml_mm'] > 0, 'right', 'left')
 
-# To create a column with layers (teste again if this is working)
-region=[]
+# To create a column with only the region in which the cell is
+region=[] # create
 
-for name in slice_data['name'].values:
+for name in data['name'].values:
     region.append(name.split(',')[0])
 print(region)
 
-slice_data['region'] = region # Add column that only include regions to the dataframe
+data['region'] = region # Add column that only include regions to the dataframe
 
-# To create a column with the part of the regions where the cells are 
+# To create a column with the part of the region where the cell is
 part=[]
 
-for name in slice_data['name'].values:
+for name in data['name'].values:
     #print(name.split(','))
     if len(name.split(',')) == 3:
         if name.split(',')[1].endswith('part'):
@@ -69,12 +67,12 @@ for name in slice_data['name'].values:
     else:
         part.append(None)      
 
-slice_data['part'] = part
+data['part'] = part
 
-# To create a column with the layer in which the cells are
+# To create a column with the layer in which the cell is
 layer=[]
  
-for name in slice_data['name'].values:
+for name in data['name'].values:
     #print(name.split(','))
     if len(name.split(',')) == 3:
         if name.split(',')[-1].startswith(' layer'):
@@ -89,20 +87,53 @@ for name in slice_data['name'].values:
     else:
         layer.append(None)
         
-slice_data['layer'] = layer
+data['layer'] = layer
 
 # Remove the initial column that had all the info about region, part and layer together 
-slice_data = slice_data.drop(columns=['name'])
+data = data.drop(columns=['name'])
+
+# Save this pre-processed table without more experiment info 
+data.to_csv('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/data/'f'{animal_id}_data.csv')
+
+# Create a new data frame that contains Napari pre-processed data and more experiment info
+data_pp = [] # pp stands for pre-processed
+data_pp = data
+
+# Insert column with animal id
+data_pp.insert(0, 'animal_id', animal_id)
+
+# Import csv file with experiments' info for all the animals 
+info = pd.read_csv('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/Experiment_info.csv', sep=';')
+
+# Add sex of the animal to the initial data frame
+sex = info.loc[(info.Animal == animal_id), 'Sex'].values[0]
+data_pp['sex'] = sex
+
+# Add injected hemisphere to the initial data frame
+injection = info.loc[(info.Animal == animal_id, 'Injection slice')].values[0]
+data_pp['injection'] = injection
+
+# Add injected area to the initial data frame
+inj_area = info.loc[(info.Animal == animal_id, 'Injected area')].values[0]
+data_pp['inj_area'] = inj_area
+
+# Add stimulated hemisphere to the data frame 
+stimulation = info.loc[(info.Animal == animal_id, 'Stimulated slice')].values[0]
+data_pp['stimulation'] = stimulation
+
+# Reorganize the columns within the data frame
+data_pp = data_pp.loc[:,['animal_id','sex','acronym','region','part','layer','hemisphere','injection','inj_area',
+                         'stimulation','structure_id','ap_mm','dv_mm','ml_mm','ap_coords','dv_coords','ml_coords',
+                         'section_name']]
 
 # Save new data
-slice_data.to_csv('/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/data_prep/'f'{animal_id}_slice_data.csv')
+data_pp.to_csv('/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/data_prep/'f'{animal_id}_data_pp.csv')
+
+print(emoji.emojize('DONE :star-struck:\U0001F42D'))
 
 
-# For futere improvement:
- # Remove columns with information about slide
- # Add a new one that only contains the animal number
- # Add column with injection site and stimulated side from csv file that contains info for all animals
- 
+
+
 
 
 
