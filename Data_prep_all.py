@@ -107,6 +107,10 @@ for i in (info.Animal):
     data_pp.insert(0, 'animal_id', animal_id)
     
     # Add sex of the animal to the initial data frame
+    genotype = info.loc[(info.Animal == animal_id), 'Genotype'].values[0]
+    data_pp['genotype'] = genotype
+    
+    # Add sex of the animal to the initial data frame
     sex = info.loc[(info.Animal == animal_id), 'Sex'].values[0]
     data_pp['sex'] = sex
     
@@ -118,15 +122,19 @@ for i in (info.Animal):
     inj_area = info.loc[(info.Animal == animal_id, 'Injected area')].values[0]
     data_pp['inj_area'] = inj_area
     
+    # Add injected area to the initial data frame
+    virus = info.loc[(info.Animal == animal_id, 'Virus')].values[0]
+    data_pp['virus'] = virus
+    
     # Add stimulated hemisphere to the data frame 
     stimulation = info.loc[(info.Animal == animal_id, 'Stimulated slice')].values[0]
     data_pp['stimulation'] = stimulation
     
     # Reorganize the columns within the data frame
-    data_pp = data_pp.loc[:,['animal_id','sex','acronym','region','part','layer','hemisphere','injection','inj_area',
-                             'stimulation','structure_id','ap_mm','dv_mm','ml_mm','ap_coords','dv_coords','ml_coords',
-                             'section_name']]
-    
+    data_pp = data_pp.loc[:,['animal_id','genotype','sex','acronym','region','part','layer','hemisphere','injection',
+                             'inj_area','virus','stimulation','structure_id','ap_mm','dv_mm','ml_mm','ap_coords',
+                             'dv_coords','ml_coords','section_name']]
+        
     # Save new data
     data_pp.to_csv('/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/data_prep/'f'{animal_id}_data_pp.csv')
     
