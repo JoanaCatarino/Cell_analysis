@@ -13,7 +13,6 @@ import numpy as np
 import seaborn as sns
 import emoji
 
-
 # Import csv file with experiments' info for all the animals 
 info = pd.read_csv('C:/Users/JoanaCatarino/OneDrive_KI/OneDrive - Karolinska Institutet/Skrivbordet/Joana/Cfos_analysis/Experiment_info.csv', sep=';')
 
